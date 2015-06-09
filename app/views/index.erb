@@ -1,3 +1,40 @@
 <h1>Welcome to Fake Tweet!</h1>
-  <p>Hello, world!</p>
+
+<form action="/show" method="POST">
+  <input type="text" id="username" name="username"></input>
+  <input id="get_tweets" type="button" value="submit!"></input>
+</form>
+
+<div id='loadingmessage'>
+</div>
+
+<div id='tweet'>
+</div>
+
+<script>
+  $(document).ready(function(){
+    $("#loadingmessage").hide();
+
+    $("#get_tweets").click(function(e){
+      e.preventDefault();
+      var user = $("#username").val();
+      $("#loadingmessage").show().append("<img src='ajax-loader.gif'/>");
+
+        $.ajax({
+        method: "POST",
+        url: "/show",
+        data: { "username": user },
+        dataType: "json",
+        })
+      .done(function(response) {
+        $("#tweet").empty();
+        for (var i = 0; i < response.length; i++) {
+          $("#tweet").append('<p id=' +response[i]["id"]+ ">" + response[i]["text"] + '</p>')
+        };
+        $('#loadingmessage').hide();
+
+      });
+    });
+  });
+</script>
 

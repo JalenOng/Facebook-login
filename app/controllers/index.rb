@@ -2,12 +2,12 @@ get '/' do
   erb :index
 end
 
-get '/:username' do
-  @user = User.find_by_username(params[:username])
+post '/show' do
+  @user = User.find_or_create_by(username: params[:username])
   if @user.tweets.empty? || @user.tweets_stale?
     @tweets = @user.fetch_tweets!
   else
     @tweets = @user.tweets
   end
-  erb :show
+  return @tweets.to_json
 end
