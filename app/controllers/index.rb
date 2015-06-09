@@ -4,11 +4,10 @@ end
 
 get '/:username' do
   @user = User.find_by_username(params[:username])
-  if @user.tweets.empty?
-    @timeline = @user.fetch_tweets!
+  if @user.tweets.empty? || @user.tweets_stale?
+    @tweets = @user.fetch_tweets!
   else
-    @timeline = @user.tweets
-  end
+    @tweets = @user.tweets
   end
   erb :show
 end
