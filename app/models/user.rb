@@ -14,4 +14,12 @@ class User < ActiveRecord::Base
     @tweets = self.tweets
     Time.now - @tweets.first.created_at >= 15
   end
+
+  def self.tweet(tweet)
+    $client.update(tweet)
+
+  end
+
 end
+
+

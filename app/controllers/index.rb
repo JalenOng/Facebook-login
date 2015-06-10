@@ -11,3 +11,13 @@ post '/show' do
   end
   return @tweets.to_json
 end
+
+post '/new' do
+  User.tweet(params[:tweet])
+
+  # # return @tweet.to_json
+end
+
+get '/posttweets' do
+  erb :posttweets
+end
