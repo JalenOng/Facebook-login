@@ -1,0 +1,39 @@
+<div class="container">
+
+        <h1>Choose one of the awesome features:</h1>
+        <ul>
+            <li><a href="/awesome_features/follow">Follow @<%= @account %></a></li>
+            <li><a href="/awesome_features/info">See your info</a></li>
+        </ul>
+
+<form action="/new" method="POST">
+   tweet<input type="text" id="tweet" name="tweet"></input>
+  <input id="post_tweets" type="submit" value="submit!"></input>
+</form>
+
+</div> <!-- /container -->
+
+<script>
+$(document).ready(function(){
+$("#post_tweets").click(function(e){
+      e.preventDefault();
+      $("input").prop("disabled", true);
+      $("#loadingmessage").show().append("<img src='ajax-loader.gif'/><p>Your tweet is being posted.</p>");
+      var user = $("#user").val();
+      var tweet = $("#tweet").val();
+        $.ajax({
+          method: "POST",
+          url: "/new",
+          data: { "tweet": tweet },
+          success: function(value){
+            alert("Your tweet has been posted");
+
+          },
+          error: function(value){
+            alert("Bad Day!!!");
+          }
+        });
+
+    });
+});
+</script>

@@ -18,9 +18,18 @@ require 'byebug'
 
 require 'sinatra'
 require "sinatra/reloader" if development?
-
+require 'oauth'
 require 'erb'
 require 'twitter'
+require "json"
+require "uri"
+require "yaml"
+require "daybreak"
+require File.expand_path(File.dirname(__FILE__) + '/../lib/twitter_sign_in')
+DATABASE = File.expand_path(File.dirname(__FILE__) + '/../db/signin.db')
+
+
+TWITTER  = File.expand_path(File.dirname(__FILE__) + "/twitterapi.yaml")
 
 # Some helper constants for path-centric logic
 APP_ROOT = Pathname.new(File.expand_path('../../', __FILE__))
@@ -28,18 +37,19 @@ APP_ROOT = Pathname.new(File.expand_path('../../', __FILE__))
 APP_NAME = APP_ROOT.basename.to_s
 
 # Set up the controllers and helpers
+Dir[APP_ROOT.join('lib', '*.rb')].each { |file| require file }
 Dir[APP_ROOT.join('app', 'controllers', '*.rb')].each { |file| require file }
 Dir[APP_ROOT.join('app', 'helpers', '*.rb')].each { |file| require file }
 
 # Set up the database and models
 require APP_ROOT.join('config', 'database')
 
-API_KEYS = YAML::load(File.open('config/twitterapi.yaml'))
+# API_KEYS = YAML::load(File.open('config/twitterapi.yaml'))
 
-$client = Twitter::REST::Client.new do |config|
-config.consumer_key = API_KEYS["consumer_key"]
-config.consumer_secret = API_KEYS["consumer_secret"]
-config.access_token = API_KEYS["access_token"]
-config.access_token_secret = API_KEYS["access_token_secret"]
-end
+# $client = Twitter::REST::Client.new do |config|
+# config.consumer_key = API_KEYS["consumer_key"]
+# config.consumer_secret = API_KEYS["consumer_secret"]
+# config.access_token = API_KEYS["access_token"]
+# config.access_token_secret = API_KEYS["access_token_secret"]
+# end
 

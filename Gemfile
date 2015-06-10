@@ -18,6 +18,8 @@ gem 'rake'
 gem 'shotgun'
 gem 'twitter'
 gem 'byebug'
+gem 'oauth'
+gem 'daybreak'
 
 group :test do
   gem 'faker'

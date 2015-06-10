@@ -19,6 +19,14 @@
 </head>
 <body>
   <div class="container">
+    <a href="#">Sign In Sample</a>
+    <a href="/">Home</a></li>
+            <li><a href="/awesome_features">Awesome features</a>
+    <% if user_logged %>
+                <li><a href="/logout">Logout</a></li>
+            <% else %>
+                <li><a href="/signin">Sign in</a></li>
+            <% end %>
   <%= yield %>
   </div>
 </body>
